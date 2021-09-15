@@ -1,0 +1,32 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+RANDOM_SEED = [50,60,70,80,90,100,110,120,130,140]
+
+MAX_TIME = 10000000  
+
+ERLANG_MIN = 100
+
+ERLANG_MAX = 180
+ 
+ERLANG_INC = 20
+
+REP = 10
+
+NUM_OF_REQUESTS = 100000
+
+BANDWIDTH = [10,20,40,80,160,200,400]
+
+CLASS_TYPE = [1,2,3]
+
+CLASS_WEIGHT = [0.15, 0.25, 0.60]
+
+TOPOLOGY = 'nsfnet'
+
+HOLDING_TIME = 2.0
+
+SLOTS = 300
+
+SLOT_SIZE = 12.5
+
+N_PATH = 3
