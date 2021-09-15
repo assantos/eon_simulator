@@ -9,7 +9,9 @@ These instructions will guide you to run this simulator.
 ### Files
 
 'config.py': It defines the parameters of the simulator
+
 'simulator_eon.py': It contains EON imulator
+
 'estatistica.py': It performs estatical measures
 
 ### Installing
