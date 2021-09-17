@@ -10,9 +10,9 @@ These instructions will guide you to run this simulator.
 
 'config.py': It defines the parameters of the simulator
 
-'simulator_eon.py': It contains EON imulator
+'eon_simulator.py': It contains EON simulator
 
-'estatistica.py': It performs estatical measures
+'run.py': It starts simulation of EON
 
 ### Installing
 
@@ -20,8 +20,8 @@ It requires: python 2.7, networkx 1.10, numpy
 
 ### Run the simulator
 
-python eon_simulator.py
+python run.py
 
 ### Results
 
-Results of the simulations are put in the folder plot according to the choose topology
+Results of the simulations are put in the folder out according to the choose topology
