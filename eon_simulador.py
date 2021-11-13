@@ -149,6 +149,118 @@ class Simulador(Process):
 				if slot == len(topology[path[0]][path[1]]['capacity'])-1:
 					return [False,0,0]
 
+    def FirstFit(self, u, v, num_slots, count):
+        global topology
+        cont_slot = []
+        alocado = False
+        for slot in range(0, len(topology[u][v]['capacity'])):
+            if alocado == True:
+                return
+            if topology[u][v]['capacity'][slot] == 0:
+                cont_slot.append(slot)
+                if len(cont_slot) == num_slots + 1:
+                    for s in cont_slot:
+                        topology[u][v]['capacity'][s] = str(count)
+                        if s == cont_slot[-1]:
+                            topology[u][v]['capacity'][s] = 'GB'
+                    alocado = True
+                    break
+            else:
+                cont_slot = []
+
+    def WorstFit(self, u, v, num_slots, count):
+        global topology
+        cont_slot = []
+        best_slots = []
+        slots_escolhidos = []
+        cont = 0
+        alocado = False
+        for slot in range(0, len(topology[u][v]['capacity'])):
+            if alocado == True:
+                return
+            
+            if topology[u][v]['capacity'][slot] == 0:
+                cont_slot.append(slot)
+                
+            else:
+                if len(cont_slot) > num_slots:
+                    best_slots.append(cont_slot)
+                cont_slot = []
+
+        if len(cont_slot) > num_slots:
+            best_slots.append(cont_slot)
+       
+        for b in best_slots:
+            slots_escolhidos.append(len(b))
+
+        slots = max(slots_escolhidos)
+        
+        for pos, num in enumerate(slots_escolhidos):
+                if num == slots:
+                    index = pos
+        
+        for s in best_slots[index]:
+            if cont == num_slots:
+                topology[u][v]['capacity'][s] = 'GB'
+                alocado = True
+                break
+            else:
+                topology[u][v]['capacity'][s] = str(count)
+                cont = cont + 1
+               
+    def BestFit(self, u, v, num_slots, count):
+        global topology
+        cont_slot = []
+        best_slots = []
+        slots_escolhidos = []
+        cont = 0
+        alocado = False
+        for slot in range(0, len(topology[u][v]['capacity'])):
+            if alocado == True:
+                return
+
+            if topology[u][v]['capacity'][slot] == 0:
+                cont_slot.append(slot)
+                
+            else:
+                if len(cont_slot) > num_slots:
+                    best_slots.append(cont_slot)
+                    cont_slot = []
+               
+        if len(cont_slot) > num_slots:
+                    best_slots.append(cont_slot)
+
+        for l in best_slots:
+            slots_escolhidos.append(len(l))
+
+        slots = Simulador.BestSlots(self, slots_escolhidos, num_slots)
+        
+        
+        for s in best_slots[slots]:
+            if cont == num_slots:
+                topology[u][v]['capacity'][s] = 'GB'
+                alocado = True
+                break
+            else:
+                topology[u][v]['capacity'][s] = str(count)
+                cont = cont + 1
+
+    def BestSlots(self, slots_escolhidos, num_slots):
+        result = []
+        menor = 0
+        if len(slots_escolhidos) == 1 or len(slots_escolhidos) == 0:
+            return 0
+        else:
+            for l in slots_escolhidos:
+                result.append(l - num_slots)
+                
+            menor = min(result) 
+
+            for pos, num in enumerate(result):
+                if num == menor:
+                    index = pos
+            return index
+
 	# Computa numero de requesições por banda
 	def conta_requisicao_banda(self, banda):
 		if banda == 10:
