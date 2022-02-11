@@ -16,7 +16,7 @@ These instructions will guide you to run this simulator.
 
 ### Installing
 
-It requires: python 2.7, networkx 1.10, numpy, simpy 2.2
+It requires: python, networkx, numpy, simpy 
 
 ### Run the simulator
 

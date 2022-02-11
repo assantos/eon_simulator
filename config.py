@@ -23,12 +23,10 @@ CLASS_WEIGHT = [0.15, 0.25, 0.60]
 
 TOPOLOGY = 'nsfnet'
 
-ALGORITMO = 'eon'
-
 HOLDING_TIME = 2.0
 
 SLOTS = 300
 
 SLOT_SIZE = 12.5
 
-N_PATH = 3
+N_PATH = 1

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from eon_simulador import Simulador
-from SimPy.Simulation import *
+import simpy
 from random import *
 from config import *
 import numpy as np
@@ -15,20 +15,19 @@ def CalculaIntervalo(amostra):
 	return [media,intervalo]
 
 def main(args):
-	algoritmo = ALGORITMO  
 	topologia = TOPOLOGY
-	arquivo1  = open('out/'+topologia+'/'+algoritmo+'/bloqueio'+'.dat', 'w')
-	arquivo2  = open('out/'+topologia+'/'+algoritmo+'/bloqueio_10'+'.dat', 'w')
-	arquivo3  = open('out/'+topologia+'/'+algoritmo+'/bloqueio_20'+'.dat', 'w')
-	arquivo4  = open('out/'+topologia+'/'+algoritmo+'/bloqueio_40'+'.dat', 'w')
-	arquivo5  = open('out/'+topologia+'/'+algoritmo+'/bloqueio_80'+'.dat', 'w')
-	arquivo6  = open('out/'+topologia+'/'+algoritmo+'/bloqueio_160'+'.dat', 'w')
-	arquivo7  = open('out/'+topologia+'/'+algoritmo+'/bloqueio_200'+'.dat', 'w')
-	arquivo8  = open('out/'+topologia+'/'+algoritmo+'/bloqueio_400'+'.dat', 'w')
-	arquivo9  = open('out/'+topologia+'/'+algoritmo+'/bloqueio_classe1'+'.dat', 'w')
-	arquivo10  = open('out/'+topologia+'/'+algoritmo+'/bloqueio_classe2'+'.dat', 'w')
-	arquivo11  = open('out/'+topologia+'/'+algoritmo+'/bloqueio_classe3'+'.dat', 'w')
-	arquivo12  = open('out/'+topologia+'/'+algoritmo+'/bloqueio_banda'+'.dat', 'w')
+	arquivo1  = open('out/'+topologia+'/bloqueio'+'.dat', 'w')
+	arquivo2  = open('out/'+topologia+'/bloqueio_10'+'.dat', 'w')
+	arquivo3  = open('out/'+topologia+'/bloqueio_20'+'.dat', 'w')
+	arquivo4  = open('out/'+topologia+'/bloqueio_40'+'.dat', 'w')
+	arquivo5  = open('out/'+topologia+'/bloqueio_80'+'.dat', 'w')
+	arquivo6  = open('out/'+topologia+'/bloqueio_160'+'.dat', 'w')
+	arquivo7  = open('out/'+topologia+'/bloqueio_200'+'.dat', 'w')
+	arquivo8  = open('out/'+topologia+'/bloqueio_400'+'.dat', 'w')
+	arquivo9  = open('out/'+topologia+'/bloqueio_classe1'+'.dat', 'w')
+	arquivo10  = open('out/'+topologia+'/bloqueio_classe2'+'.dat', 'w')
+	arquivo11  = open('out/'+topologia+'/bloqueio_classe3'+'.dat', 'w')
+	arquivo12  = open('out/'+topologia+'/bloqueio_banda'+'.dat', 'w')
 
 	for e in range(ERLANG_MIN, ERLANG_MAX+1, ERLANG_INC):
 		Bloqueio = []
@@ -44,15 +43,15 @@ def main(args):
 		Bloqueio_classe3 = []
 		Bloqueio_banda = []
 
-		for rep in xrange(10):
+		for rep in range(10):
 			rate = e / HOLDING_TIME
 			seed(RANDOM_SEED[rep])
-			initialize()
-			simulador = Simulador()
-			activate(simulador,simulador.Run(rate))
-			simulate(until=MAX_TIME)#MAX_TIME
-			print "Erlang", e, "Simulacao...", rep
-			print "bloqueadas", simulador.NumReqBlocked, "de", NUM_OF_REQUESTS
+			env = simpy.Environment()
+			simulador = Simulador(env)
+			env.process(simulador.Run(rate))
+			env.run()
+			print("Erlang", e, "Simulacao...", rep)
+			print("bloqueadas", simulador.NumReqBlocked, "de", NUM_OF_REQUESTS)
 			Bloqueio.append(simulador.NumReqBlocked / float(NUM_OF_REQUESTS))
 			Bloqueio_10.append(simulador.NumReqBlocked_10/float(simulador.NumReq_10))
 			Bloqueio_20.append(simulador.NumReqBlocked_20/float(simulador.NumReq_20))
